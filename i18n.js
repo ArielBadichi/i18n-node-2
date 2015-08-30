@@ -12,23 +12,6 @@ var vsprintf = require("sprintf").vsprintf,
     fs = require("fs"),
     path = require("path");
 
-
-function dotNotation (obj, is, value) {
-    if (typeof is === 'string') {
-        return dotNotation(obj, is.split('.'), value);
-    } else if (is.length === 1 && value !== undefined) {
-        return obj[is[0]] = value;
-    } else if (is.length === 0) {
-        return obj;
-    } else {
-        if (obj.hasOwnProperty(is[0])) {
-            return dotNotation(obj[is[0]], is.slice(1), value);
-        } else {
-            return obj[is.join('.')] = is.join('.');
-        }
-    }
-}
-
 var i18n = module.exports = function (opt) {
     var self = this;
 
@@ -310,19 +293,22 @@ i18n.prototype = {
                 console.warn("WARN: No locale found. Using the default (" +
                              this.defaultLocale + ") as current locale");
             }
-
             locale = this.defaultLocale;
-
             this.initLocale(locale, {});
         }
 
         if (!this.locales[locale][singular]) {
+            if (this.locales[this.defaultLocale][singular]) {
+                this.locales[locale][singular] = this.locales[this.defaultLocale][singular];
+            } else {
+                this.locales[locale][singular] = plural ? { one: singular, other: plural } : singular;
+            }
             if (this.devMode) {
                 this.writeFile(locale);
             }
         }
 
-        return dotNotation(this.locales[locale], singular, plural ? { one: singular, other: plural } : undefined);
+        return this.locales[locale][singular];
     },
 
     // try reading a file

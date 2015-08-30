@@ -96,18 +96,16 @@ module.exports = {
                 en: {
                     "Hello": "Hello",
                     "Hello %s, how are you today?": "Hello %s, how are you today?",
-                    "weekend": "weekend"
+                    "weekend": "weekend",
+                    "worldview": "weltanschauung"
                 },
                 de: {
                     "Hello": "Hallo",
                     "Hello %s, how are you today?": "Hallo %s, wie geht es dir heute?",
                     "weekend": "Wochenende",
-                    "nested": {
-                        "foo": "bar"
-                    },
                     "%s cat": {
-                        "one": "%s cat",
-                        "other": "%s cats"
+                        "one": "%s katze",
+                        "other": "%s katzen"
                     }
                 }
             }
@@ -116,9 +114,9 @@ module.exports = {
         i18n.setLocale('de');
 
         assert.equal('Hallo', i18n.__('Hallo'));
-        assert.equal('bar', i18n.__('nested.foo'));
-        assert.equal('0 cat', i18n.__n('%s cat', 0));
-        assert.equal('1 cat', i18n.__n('%s cat', 1));
-        assert.equal('2 cats', i18n.__n('%s cat', 2));
+        assert.equal('0 katze', i18n.__n('%s cat', 0));
+        assert.equal('1 katze', i18n.__n('%s cat', 1));
+        assert.equal('2 katzen', i18n.__n('%s cat', 2));
+        assert.equal('weltanschauung', i18n.__('worldview'));
     }
 };
