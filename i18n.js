@@ -55,11 +55,11 @@ var i18n = module.exports = function (opt) {
             this.setLocaleFromSubdomain(this.request);
         }
 
-        if (this.query !== false) {
+        if (this.query) {
             this.setLocaleFromQuery(this.request);
         }
 
-        if (this.session !== false) {
+        if (this.session) {
             this.setLocaleFromSessionVar(this.request);
         }
 
