@@ -161,11 +161,22 @@ i18n.prototype = {
         if (!locale) return;
 
         if (!this.locales[locale]) {
-            if (this.devMode) {
-                console.warn("Locale (" + locale + ") not found.");
-            }
 
-            locale = this.defaultLocale;
+            var parentLocale = locale.split('-')[0];
+            if (this.locales[parentLocale]) {
+                if (this.devMode) {
+                    console.warn("Locale (" + locale + ") not found. Fallback found: " + parentLocale);
+                }
+
+                locale = parentLocale;
+
+            } else {
+                if (this.devMode) {
+                    console.warn("Locale (" + locale + ") not found.");
+                }
+
+                locale = this.defaultLocale;
+            }
         }
 
         return (this.locale = locale);
